@@ -1,0 +1,104 @@
+.menu__button {
+   display: none;
+   background: none;
+   background-image: url("../../images/menu__icon.svg");
+   padding: 20px;
+   width: 43px;
+   height: 40px;
+   border: none;
+   cursor: pointer;
+}
+.header__link {
+   font-weight: 400;
+   font-size: 14px;
+   line-height: 18px;
+   align-items: center;
+   display: flex;
+   text-decoration: none;
+   color: white;
+}
+.header__link:hover {
+   cursor: pointer;
+   opacity: .5;
+}
+.header__link_active {
+   text-decoration: none;
+   color: white;
+   font-style: normal;
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 18px;
+}
+.header__navigation {
+   list-style: none;
+   display: flex;
+   flex-direction: row;
+   padding: 0;
+   align-items: baseline;
+   gap: 30px;
+}
+.header__link_signup {
+   color: white;
+   font-style: normal;
+   font-weight: 500;
+   font-size: 12px;
+   line-height: 16px;
+}
+.header__link_signin {
+   font-style: normal;
+   font-weight: 500;
+   font-size: 12px;
+   line-height: 16px;
+   padding: 8px 20px;
+   background-color: #3DDC84;
+   border-radius: 3px;
+   color: black;
+}
+.header__link_account {
+   position: relative;
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 16px;
+   margin-left: 30px;
+   padding-right: 43px;
+   min-height: 30px;
+}
+.header__link_account::after {
+   position: absolute;
+   content: '';
+   top: 0;
+   right: 0;
+   width: 30px;
+   height: 100%;
+   border-radius: 6px;
+   background-color: #313131;
+   background-image: url('../../images/account.svg');
+   background-repeat: no-repeat;
+   background-position: center;
+}
+@media screen and (max-width: 768px) {
+   .header__navigation {
+      display: none;
+   }
+   .header__link_account {
+      display: none;
+   }
+   .menu__button {
+      display: block;
+   }
+} 
+@media screen and (max-width: 400px) {
+   .header__navigation {
+      margin: 0;
+      gap: 14px;
+   }
+   .header__link_signin {
+      padding: 5px 12px;
+      font-size: 10px;
+      line-height: 16px;
+   }
+   .header__link_signup {
+      font-size: 10px;
+      line-height: 16px;
+   }
+}

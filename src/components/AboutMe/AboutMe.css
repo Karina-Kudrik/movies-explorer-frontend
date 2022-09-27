@@ -92,6 +92,7 @@
    }
    .aboutme__avatar {
       width: 255px;
+      align-self: center;
    }
 }
 @media screen and (max-width: 600px){
@@ -100,7 +101,7 @@
    }
    .aboutme__info-container {
       flex-direction: column-reverse;
-      align-items: center;
+      align-items: left;
       margin-top: 60px;
       gap: 40px;
    }
@@ -112,6 +113,9 @@
    .aboutme__about {
       font-size: 11px;
       line-height: 16px;
+   }
+   .aboutme__avatar {
+      width: 292px;
    }
    .aboutme__description {
       font-size: 11px;

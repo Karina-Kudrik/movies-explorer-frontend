@@ -1,4 +1,5 @@
 import promo from '../../images/promo__image.svg';
+import { Link } from 'react-router-dom';
 import './Promo.css';
 
 function Promo() {
@@ -12,7 +13,7 @@ function Promo() {
                <p className="promo__info">
                   Листайте ниже, чтобы узнать больше про этот проект и его создателя.
                </p>
-               <a className="promo__link">
+               <a href="#about-project" className="promo__link">
                Узнать больше
                </a>
             </div>

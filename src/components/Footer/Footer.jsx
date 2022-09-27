@@ -8,8 +8,8 @@ function Footer() {
                <div className="footer__row">
                   <p className="footer__copyright">&copy;2022</p>
                   <ul className="footer__links">
-                     <li className="footer__item"><a className="footer__link">Яндекс.Практикум</a></li>
-                     <li className="footer__item"><a className="footer__link">GitHub</a></li>
+                     <li className="footer__item"><a href="https://practicum.yandex.ru/" target="_blank" className="footer__link">Яндекс.Практикум</a></li>
+                     <li className="footer__item"><a href="https://github.com/" className="footer__link" target="_blank">GitHub</a></li>
                   </ul>
                </div>
          </div>

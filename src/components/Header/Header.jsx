@@ -1,15 +1,20 @@
 import './Header.css';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.svg';
+import Navigation from '../Navigation/Navigation';
 
-function Header() {
+function Header({login, loggedIn}) {
+   const location = useLocation();
    return (
-      <header className='header'>
-         <div className='header__container'>
-            <img className='header__logo' src={logo} alt="Лого"/>
-            <ul className='header__navigation'>
-               <li className='header__link header__link_signup'>Регистрация</li>
-               <li className='header__link header__link_signin'>Войти</li>
-            </ul>
+      <header className={`header ${location.pathname === '/' ? '' : 'header_dark'}`}>
+         <div className="header__container">
+            <Link to='/' className="header__link">
+            <img className="header__logo" src={logo} alt="Лого"/>
+            </Link>
+            <Navigation
+            loggedIn={loggedIn}
+            login={login}
+            />
          </div>
       </header>
    );

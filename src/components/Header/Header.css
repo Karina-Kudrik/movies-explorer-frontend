@@ -2,6 +2,9 @@
    background-color:#073042;
    width: 100%;
 }
+.header_dark {
+   background-color: #202020;
+}
 .header__container {
    display: flex;
    flex-direction: row;
@@ -13,6 +16,10 @@
    position: relative;
    box-sizing: border-box;
    margin: 0 auto;
+}
+.header__link {
+   align-items: center;
+   display: flex;
 }
 .header__link_signin {
    color: black;

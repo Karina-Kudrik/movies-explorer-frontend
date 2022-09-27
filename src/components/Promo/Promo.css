@@ -58,6 +58,7 @@
    padding: 9px 19px;
    max-width: 89px;
    text-align: center;
+   text-decoration: none;
 }
 .promo__link:hover {
    cursor: pointer;

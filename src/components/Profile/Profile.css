@@ -55,7 +55,7 @@
   line-height: 1.18;
   background-color: transparent;
   color: white;
-  text-align: right;
+  text-align: left;
 } 
 .profile__input_error {
   color: #EE3465;

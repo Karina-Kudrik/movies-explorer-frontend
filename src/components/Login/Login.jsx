@@ -1,13 +1,26 @@
+import React from 'react';
 import logo from '../../images/logo.svg';
 import './Login.css';
+import { Link, Route} from 'react-router-dom';
 
-function Login() {
+function Login({login}) {
+   const [userData, setUserData] = React.useState({ password: '', email: ''});
+
+   function handleChange(e) {
+      const { name, value } = e.target;
+
+      setUserData({
+         ...userData,
+         [name]: value
+      });
+   };
+
    return (
       <section className="login">
-         <form className="login__form" name="login" noValidate>
-            <a to="/" className="login__link">
+         <form className="login__form" name="login" noValidate onSubmit={login}>
+            <Link to="/" className="login__link">
                <img src={logo} alt="Логотип" className="login__logo" />
-            </a>
+            </Link>
             <h1 className="login__title">Рады видеть!</h1>
                <div className="login__container">
                   <label className="login__label">
@@ -17,6 +30,7 @@ function Login() {
                      className="login__input"
                      type="email"
                      required
+                     onChange={handleChange}
                   />
                   <span className="login__error"></span>
                   </label>
@@ -27,6 +41,7 @@ function Login() {
                      className="login__input"
                      type="password"
                      required
+                     onChange={handleChange}
                   />
                   <span className="login__error"></span>
                   </label>
@@ -39,7 +54,7 @@ function Login() {
                </button>
                <span className="login__signup">
                Ещё не зарегистрированы?&nbsp;
-               <a to="signup" className="login__link">
+               <a href="/signup" className="login__link">
                   Регистрация
                </a>
                </span>
