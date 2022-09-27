@@ -14,7 +14,7 @@ function Navigation({loggedIn}) {
 
    return (
       <ul className="header__navigation">
-         {loggedIn ? (
+         {!loggedIn ? (
             <>
                <li>
                   <Link to='/signup' className="header__link header__link_signup">

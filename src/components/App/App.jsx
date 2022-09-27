@@ -10,6 +10,7 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
 function App() {
   const [loggedIn, setIsLoggedIn] = React.useState(true);
@@ -61,6 +62,7 @@ function App() {
           <PageNotFound/>
         </Route>
       </Switch>
+      <BurgerMenu/>
     </div>
   );
 }

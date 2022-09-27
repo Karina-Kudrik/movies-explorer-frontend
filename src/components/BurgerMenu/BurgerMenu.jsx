@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { NavLink, useRouteMatch } from "react-router-dom";
 import "./BurgerMenu.css";
 
 const BurgerMenu = ({ onClose }) => {
@@ -16,31 +16,25 @@ const BurgerMenu = ({ onClose }) => {
                />
                <ul className="menu__list">
                   <li className="menu__item">
-                     <Link to="/" className={ routeMatch.path === "/" ? "menu__link_active" : "menu__link"}>
+                     <NavLink exact to="/" className="menu__link" activeClassName="menu__link_active">
                      Главная
-                     </Link>
+                     </NavLink>
                   </li>
                   <li className="menu__item">
-                  <Link to="/movies" className={ routeMatch.path === "/movies"
-                     ? "menu__link_active"
-                     : "menu__link"
-                  }>
+                  <NavLink to="/movies" className="menu__link" activeClassName="menu__link_active">
                   Фильмы
-                  </Link>
+                  </NavLink>
                   </li>
                   <li className="menu__item">
-                     <Link to="/saved-movies" className={ routeMatch.path === "/saved-movies"
-                        ? "menu__link_active"
-                        : "menu__link"
-                     }>
+                     <NavLink to="/saved-movies" className="menu__link" activeClassName="menu__link_active">
                   Сохранённые фильмы
-                  </Link>
+                  </NavLink>
                   </li>
                </ul>
                <div className="menu__account-container">
                <li className="menu__item">
-                     <Link to="/profile" className="menu__link menu__link_account">Аккаунт
-                     </Link>
+                     <NavLink to="/profile" className="menu__link menu__link_account">Аккаунт
+                     </NavLink>
                   </li>
                </div>
             </div>

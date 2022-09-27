@@ -9,7 +9,6 @@
 }
 .menu {
    z-index: 2;
-   display: none;
 }
 .menu__background {
    background-color: rgba(0, 0, 0, 0.30);
@@ -44,6 +43,7 @@
    padding: 0;
 }
 .menu__list {
+   z-index: 4;
    display: flex;
    flex-direction: column;
    align-items: center;
