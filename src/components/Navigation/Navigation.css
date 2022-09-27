@@ -76,11 +76,12 @@
    background-repeat: no-repeat;
    background-position: center;
 }
+
 @media screen and (max-width: 768px) {
-   .header__navigation {
+   .header__link_account {
       display: none;
    }
-   .header__link_account {
+   .header__link_hidden {
       display: none;
    }
    .menu__button {

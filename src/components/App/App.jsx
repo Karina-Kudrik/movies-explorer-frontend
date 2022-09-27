@@ -13,7 +13,7 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
 function App() {
-  const [loggedIn, setIsLoggedIn] = React.useState(true);
+  const [loggedIn, setIsLoggedIn] = React.useState(false);
   const history = useHistory();
 
   function login() {

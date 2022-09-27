@@ -1,9 +1,8 @@
 import React from "react";
-import { NavLink, useRouteMatch } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./BurgerMenu.css";
 
-const BurgerMenu = ({ onClose }) => {
-   const routeMatch = useRouteMatch();
+const BurgerMenu = ({ onClose, isOpen }) => {
 
    return (
       <div className="menu">

@@ -1,6 +1,6 @@
 import './Navigation.css';
 import React, { useState } from "react";
-import { Link, useRouteMatch } from 'react-router-dom';
+import {NavLink, useRouteMatch } from 'react-router-dom';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
 function Navigation({loggedIn}) {
@@ -17,37 +17,37 @@ function Navigation({loggedIn}) {
          {!loggedIn ? (
             <>
                <li>
-                  <Link to='/signup' className="header__link header__link_signup">
+                  <NavLink to='/signup' className="header__link header__link_signup">
                   Регистрация
-                  </Link>
+                  </NavLink>
                </li>
                <li>
-                  <Link to='/signin' className="header__link header__link_signin">
+                  <NavLink to='/signin' className="header__link header__link_signin">
                   Войти
-                  </Link>
+                  </NavLink>
                </li>
             </>
          ) : (
             <>
                <li>
-                  <Link to='/movies' className={routeMatch.path === '/movies' ? "header__link" : "header__link_active"}>
+                  <NavLink to='/movies' className="header__link header__link_hidden"  activeClassName="header__link_active">
                   Фильмы
-                  </Link>
+                  </NavLink>
                </li>
                <li>
-                  <Link to='/saved-movies' className={routeMatch.path === '/saved-movies' ? "header__link" : "header__link_active"}>
+                  <NavLink to='/saved-movies' className="header__link header__link_hidden"  activeClassName="header__link_active">
                   Сохранённые фильмы
-                  </Link>
+                  </NavLink>
                   </li>
                <li>
-               <Link to='/profile' className="header__link header__link_account">
+               <NavLink to='/profile' className="header__link header__link_account">
                   Аккаунт
-               </Link>
+               </NavLink>
             </li>
             {!isOpen ? (
             <button className="menu__button" onClick={toggleMenu} />
          ) : (
-            <BurgerMenu onClose={toggleMenu} />
+            <BurgerMenu onClose={toggleMenu} isOpen={isOpen}/>
          )}
          </>
          )}

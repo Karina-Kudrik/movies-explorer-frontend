@@ -1,14 +1,9 @@
-.menu__button {
-   background-image: url("../../images/menu__icon.svg");
-   padding: 20px;
-   width: 43px;
-   height: 40px;
-   border: none;
-   cursor: pointer;
-   display: none;
-}
 .menu {
    z-index: 2;
+   display: none;
+}
+.menu_open {
+   display: block;
 }
 .menu__background {
    background-color: rgba(0, 0, 0, 0.30);
@@ -97,7 +92,7 @@
 .menu__account-container {
    margin-bottom: 92px;
 }
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 768px) {
    .menu {
       display: none;
    }
