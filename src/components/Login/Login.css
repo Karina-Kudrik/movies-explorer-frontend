@@ -71,6 +71,12 @@
    background-color: transparent;
    color: white;
 } 
+.login__input:focus {
+   outline: none;
+   background-color: #424242;
+   border-radius: 8px;
+   padding: 15px;
+}
 .login__input_error {
    color: #EE3465;
 } 
@@ -83,7 +89,7 @@
    line-height: 1.2;
    color: #EE3465;
    position: absolute;
-   top: 60px;
+   top: 75px;
    left: 0;
 } 
 .login__button {
@@ -139,6 +145,7 @@
    .login__button {
       font-size: 12px;
       line-height: 1.25;
+      margin-top: 260px;
    }
    .login__signup {
       font-size: 12px;

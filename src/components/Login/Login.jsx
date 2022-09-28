@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../images/logo.svg';
 import './Login.css';
-import { Link, Route} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Login({login}) {
    const [userData, setUserData] = React.useState({ password: '', email: ''});
@@ -43,7 +43,7 @@ function Login({login}) {
                      required
                      onChange={handleChange}
                   />
-                  <span className="login__error"></span>
+                  <span className="login__error">Что-то пошло не так</span>
                   </label>
                </div>
                <button

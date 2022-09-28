@@ -78,6 +78,9 @@
 }
 
 @media screen and (max-width: 768px) {
+   .header__navigation {
+      margin: 0;
+   }
    .header__link_account {
       display: none;
    }

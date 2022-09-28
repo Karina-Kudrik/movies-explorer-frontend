@@ -1,5 +1,4 @@
 import promo from '../../images/promo__image.svg';
-import { Link } from 'react-router-dom';
 import './Promo.css';
 
 function Promo() {

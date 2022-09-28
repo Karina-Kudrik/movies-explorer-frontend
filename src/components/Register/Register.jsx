@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Register.css';
 import logo from '../../images/logo.svg';
 
@@ -34,7 +34,7 @@ function Register({register}) {
                      value={userData.name || ''}
                      onChange={handleChange}
                   />
-                  <span className="register__error">jibmb</span>
+                  <span className="register__error"></span>
                   </label>
                   <label className="register__label">
                   <span className="register__label-text">E-mail</span>
@@ -46,7 +46,7 @@ function Register({register}) {
                      value={userData.email || ''}
                      onChange={handleChange}
                   />
-                  <span className="register__error">fvjdbfgjldfbg</span>
+                  <span className="register__error"></span>
                   </label>
                   <label className="register__label">
                   <span className="register__label-text">Пароль</span>
@@ -58,7 +58,7 @@ function Register({register}) {
                      value={userData.password || ''}
                      onChange={handleChange}
                   />
-                  <span className="register__error">fn vldfbv</span>
+                  <span className="register__error">Что-то пошло не так</span>
                   </label>
                </div>
                <button

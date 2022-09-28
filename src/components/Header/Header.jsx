@@ -9,11 +9,11 @@ function Header({login, loggedIn}) {
       <header className={`header ${location.pathname === '/' ? '' : 'header_dark'}`}>
          <div className="header__container">
             <Link to='/' className="header__link">
-            <img className="header__logo" src={logo} alt="Лого"/>
+               <img className="header__logo" src={logo} alt="Лого"/>
             </Link>
             <Navigation
-            loggedIn={loggedIn}
-            login={login}
+               loggedIn={loggedIn}
+               login={login}
             />
          </div>
       </header>

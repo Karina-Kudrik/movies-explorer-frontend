@@ -1,6 +1,6 @@
 import './Navigation.css';
 import React, { useState } from "react";
-import {NavLink, useRouteMatch } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
 function Navigation({loggedIn}) {
@@ -9,8 +9,6 @@ function Navigation({loggedIn}) {
    const toggleMenu = () => {
       setIsOpen(!isOpen);
    };
-
-   const routeMatch = useRouteMatch();
 
    return (
       <ul className="header__navigation">
