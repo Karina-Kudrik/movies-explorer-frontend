@@ -13,7 +13,7 @@ function AboutMe() {
                      <p className="aboutme__description">Здесь будет информация о себе</p>
                   <ul className="aboutme__socials">
                      <li className="aboutme__social">
-                        <a className="aboutme__social-link" href="https://github.com/Karina-Kudrik" target="_blank">Github</a>
+                        <a className="aboutme__social-link" rel="noreferrer" href="https://github.com/Karina-Kudrik" target="_blank">Github</a>
                      </li>
                   </ul>
             </div>

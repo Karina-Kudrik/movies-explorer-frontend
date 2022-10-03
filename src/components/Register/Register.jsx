@@ -16,7 +16,7 @@ function Register({register}) {
 
    return (
       <section className="register">
-         <form className="register__form" name="register" noValidate onSubmit={register}>
+         <form className="register__form" name="register" onSubmit={register}>
             <Link to="/" className="register__link">
                <img src={logo} alt="Логотип" className="register__logo" />
             </Link>
@@ -28,6 +28,7 @@ function Register({register}) {
                      name="name"
                      className="register__input"
                      type="text"
+                     placeholder="Имя"
                      required
                      minLength="2"
                      maxLength="30"
@@ -43,6 +44,7 @@ function Register({register}) {
                      className="register__input"
                      type="email"
                      required
+                     placeholder="E-mail"
                      value={userData.email || ''}
                      onChange={handleChange}
                   />

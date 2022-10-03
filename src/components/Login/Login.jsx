@@ -17,7 +17,7 @@ function Login({login}) {
 
    return (
       <section className="login">
-         <form className="login__form" name="login" noValidate onSubmit={login}>
+         <form className="login__form" name="login" onSubmit={login}>
             <Link to="/" className="login__link">
                <img src={logo} alt="Логотип" className="login__logo" />
             </Link>
@@ -30,6 +30,7 @@ function Login({login}) {
                      className="login__input"
                      type="email"
                      required
+                     placeholder="E-mail"
                      onChange={handleChange}
                   />
                   <span className="login__error"></span>
