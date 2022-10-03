@@ -1,0 +1,127 @@
+.aboutme {
+   background-color: #202020;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 100%;
+}
+.aboutme__title {
+   width: 100%;
+   font-weight: 400;
+   font-size: 22px;
+   line-height: 1.23;
+   letter-spacing: -0.04em;
+   margin: 0;
+   border-bottom: 1px solid white;
+   padding-bottom: 23px;
+}
+.aboutme__container {
+   max-width: 1280px;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   padding: 110px 70px 100px;
+   box-sizing: border-box;
+   align-items: center;
+} 
+.aboutme__name {
+   font-family: 'Inter';
+   font-style: normal;
+   font-weight: 400;
+   font-size: 50px;
+   line-height: 58px;
+   letter-spacing: -0.04em;
+   color: white;
+   margin-bottom: 0;
+   margin-top: 0;
+} 
+.aboutme__about {
+   margin-top: 18px;
+   margin-bottom: 25px;
+   font-style: normal;
+   font-weight: 500;
+   font-size: 18px;
+   line-height: 20px;
+} 
+.aboutme__description {
+   max-width: 600px;
+   margin: 0;
+} 
+.aboutme__avatar {
+   width: 270px;
+   object-fit: cover;
+   border-radius: 10px;
+} 
+.aboutme__info-container {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   margin-top: 66px;
+   gap: 49px;
+}
+.aboutme__social-link {
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 1.21;
+   color: #fff;
+   text-decoration: none;
+}
+.aboutme__socials {
+   list-style: none;
+   padding-left: 0;
+   margin-top: 100px;
+} 
+.aboutme__social-link:hover {
+   opacity: 0.7;
+}
+@media screen and (max-width: 800px) {
+   .aboutme__name {
+      font-size: 40px;
+      line-height: 40px;
+   }
+   .aboutme__about {
+      font-size: 12px;
+      line-height: 18px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+   }
+   .aboutme__description {
+      font-size: 12px;
+      line-height: 18px;
+   }
+   .aboutme__avatar {
+      width: 255px;
+      align-self: center;
+   }
+}
+@media screen and (max-width: 600px){
+   .aboutme__container {
+      padding: 70px 14px;
+   }
+   .aboutme__info-container {
+      flex-direction: column-reverse;
+      align-items: left;
+      margin-top: 60px;
+      gap: 40px;
+   }
+   .aboutme__name {
+      font-size: 30px;
+      line-height: 36px;
+      margin: 0;
+   }
+   .aboutme__about {
+      font-size: 11px;
+      line-height: 16px;
+   }
+   .aboutme__avatar {
+      width: 292px;
+   }
+   .aboutme__description {
+      font-size: 11px;
+      line-height: 16px;
+   }
+   .aboutme__socials {
+      margin-top: 40px;
+   }
+}
