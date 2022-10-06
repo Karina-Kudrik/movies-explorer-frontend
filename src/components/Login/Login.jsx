@@ -4,27 +4,35 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 
 function Login({login}) {
-   const [userData, setUserData] = React.useState({ password: '', email: ''});
 
-   function handleChange(e) {
-      const { name, value } = e.target;
+   const [data, setData] = React.useState({
+      email: '',
+      password: ''
+   });
 
-      setUserData({
-         ...userData,
+   const handleChange = (e) => {
+      const {name, value} = e.target;
+      setData((oldData) => ({
+         ...oldData,
          [name]: value
-      });
-   };
+      }));
+   }
 
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      let { email, password } = data;
+      login(email, password);
+   }
    return (
       <section className="login">
-         <form className="login__form" name="login" noValidate onSubmit={login}>
+         <form className="login__form" name="login" onSubmit={handleSubmit}>
             <Link to="/" className="login__link">
                <img src={logo} alt="Логотип" className="login__logo" />
             </Link>
             <h1 className="login__title">Рады видеть!</h1>
                <div className="login__container">
                   <label className="login__label">
-                  <span className="login__label-text">E-mail</span>
+                  <span className="login__label-text"></span>
                   <input
                      name="email"
                      className="login__input"
@@ -35,15 +43,16 @@ function Login({login}) {
                   <span className="login__error"></span>
                   </label>
                   <label className="login__label">
-                  <span className="login__label-text">Пароль</span>
+                  <span className="login__label-text"></span>
                   <input
                      name="password"
                      className="login__input"
                      type="password"
                      required
+                     placeholder="Пароль"
                      onChange={handleChange}
                   />
-                  <span className="login__error">Что-то пошло не так</span>
+                  <span className="login__error"></span>
                   </label>
                </div>
                <button

@@ -5,8 +5,10 @@ import './SavedMovies.css';
 function SavedMovies() {
    return (
       <section className="movies__saved">
-         <SearchForm />
-         <MoviesCardList />
+         <SearchForm 
+         />
+         <MoviesCardList 
+         />
       </section>
    );
 }
