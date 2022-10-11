@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { SearchFilterMoviesContext } from "../../contexts/SearchFilterContext";
 import ProtectedRoute from '../ProtectedRoute';
 import * as auth from "../../utils/auth";
 import * as mainApi from "../../utils/MainApi";
-//import * as moviesApi from "../../utils/MoviesApi";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -15,55 +15,50 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import useMovies from "../../hooks/useMovies";
+import useAuth from "../../hooks/useAuth";
+import useSavedMovies from "../../hooks/useSavedMovies";
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
   const history = useHistory();
-  const [currentUser, setCurrentUser] = React.useState({});
-
-  React.useEffect(() => {
-    checkToken();
-  }, []);
-
-  React.useEffect(() => {
-    const token = localStorage.getItem('jwt');
-    if (loggedIn) {
-        auth
-        .getUserInfo(token)
-        .then((user) => {
-            if (user) {
-                setLoggedIn(true);
-                setCurrentUser({
-                  name: user.data.name,
-                  email: user.data.email,
-              });
-            history.push('/movies')
-            }
-        })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-  }, [loggedIn]);
+  const location = useLocation();
+  const [currentUser, setCurrentUser, setIsLoaded, setIsLogged] =
+    useAuth(logout);
+  const [searchFilterMovies, setSearchFilterMovies] = React.useState({
+    name: localStorage.getItem("searchedKeywords") || "",
+    isShort: JSON.parse(localStorage.getItem("isShort")) || false,
+  });
+  const [movies, setMovies, moviesIsLoaded] = useMovies(searchFilterMovies);
+  const [savedMovies, setSavedMovies, savedMoviesIsLoaded] = useSavedMovies(
+    currentUser,
+    searchFilterMovies
+  );
 
   function login(email, password) {
     auth
       .login({email, password})
       .then((res) => {
-          localStorage.setItem("jwt", res.token);
-          setLoggedIn(true);
-          history.push('/movies');
-        })
-      .catch((err) => {
-        setLoggedIn(false);
-        console.log(err);
+        localStorage.setItem("jwt", res.token);
+        setIsLogged(true);
+        alert("Авторизация прошла успешно");
+        history.push('/movies');
       })
+      .catch(() => alert("Был введён неверный email или пароль"))
+      .finally(() => setIsLoaded(true));
   }
 
   function logout() {
-    setLoggedIn(false);
-    setCurrentUser({});
-    localStorage.removeItem("jwt");
+    setIsLogged(false);
+    setCurrentUser({
+      _id: "",
+      name: "",
+      email: "",
+      isLoaded: true,
+      isLogged: false,
+    });
+    setMovies([]);
+    setSavedMovies([]);
+    localStorage.clear();
     history.push('/');
   }
 
@@ -73,116 +68,145 @@ function App() {
       .then((res) => {
         if (res) {
           history.push('/signin');
-      }
-    })
-      .catch((err) => console.log(err))
-  }
-
-  function checkToken() {
-    let token = localStorage.getItem("jwt");
-    if (token) {
-      auth
-        .getUserInfo(token)
-        .then((user) => {
-          setLoggedIn(true);
-          setCurrentUser({
-            name: user.data.name,
-            email: user.data.email,
-        });
-          history.push('/movies');
+        }
       })
-        .catch((err) => console.log(err));
-    }
+      .catch((err) => {
+        switch (err) {
+          case 400:
+            alert("Одно из полей заполнено некорректно");
+            break;
+          case 409:
+            alert("Пользователь с такой почтой уже зарегистрирован");
+            break;
+          default:
+            alert("Что-то пошло не так");
+        }
+      })
+      .finally(() => setIsLoaded(true));
   }
 
   function handleUpdateProfile(name, email) {
+    const token = localStorage.getItem("jwt");
+    if (!token) return logout();
+
     mainApi
-      .updateUserInfo(name, email)
+      .updateUserInfo(token, name, email)
       .then((user) => {
-        setCurrentUser({
-          name: user.name,
-          email: user.email
-        });
-    })
-        .catch((err) => {
-            console.log(err);
-        });
+        setCurrentUser((currentUser) => ({ ...currentUser, ...user }));
+        alert("Данные успешно обновлены!");
+      })
+      .catch(() => alert("Произошла ошибка во время обновления данных"))
+      .finally(() => setIsLoaded(true));
   }
 
-
-  function handleSearch(value) {
-    if (value.length === 0) {
-      console.log('Нужно ввести ключевое слово');
+  function searchMovie(searchedKeywords) {
+    if (!searchedKeywords && location.pathname === "/movies") {
+      return alert("Нужно ввести ключевое слово");
     }
+
+    changeSearchedName(searchedKeywords);
   }
 
-  // const [movies, setMovies] = React.useState([]);
+  function changeSearchedName(searchedKeywords) {
+    setSearchFilterMovies((searchFilterMovies) => ({
+      ...searchFilterMovies,
+      name: searchedKeywords,
+    }));
 
-//   React.useEffect(() => {
-//     if (loggedIn) {
-//       const moviesList = localStorage.getItem("movies");
-//         if (moviesList) {
-//           setMovies(JSON.parse(moviesList));
-//         } else {
-//           getMovies();
-//         }
-//       }
-// }, [loggedIn]);
+    localStorage.setItem("searchedKeywords", searchedKeywords);
+  }
 
-// function getMovies() {;
-//     moviesApi
-//         .getMovies()
-//         .then((movies) => {
-//             localStorage.setItem("movies", JSON.stringify(movies));
-//             setMovies(movies);
-//         })
-//         .catch((err) => console.log(err))
-// }
+  function toggleIsShort() {
+    setSearchFilterMovies((searchFilterMovies) => ({
+      ...searchFilterMovies,
+      isShort: !searchFilterMovies.isShort,
+    }));
+    localStorage.setItem("isShort", !searchFilterMovies.isShort);
+  }
+
+  function saveMovie(movie) {
+    mainApi
+      .createMovie(movie)
+      .then((savedMovie) => {
+        setSavedMovies((savedMovies) => {
+          const filteredMovies = [...savedMovies, savedMovie];
+          localStorage.setItem("savedMovies", JSON.stringify(filteredMovies));
+          alert("Фильм успешно сохранён!");
+          return filteredMovies;
+        });
+      })
+      .catch(() => alert("Не удалось получить сохранённые фильмы"));
+  }
+
+  function unsaveMovie(id) {
+    mainApi
+      .deleteMovie(id)
+      .then((deletedMovie) => {
+        setSavedMovies((savedMovies) => {
+          const filteredMovies = savedMovies.filter(
+            (movie) => movie._id !== deletedMovie._id
+          );
+          localStorage.setItem("savedMovies", JSON.stringify(filteredMovies));
+          alert("Фильм успешно удалён из сохранённых");
+          return filteredMovies;
+        });
+      })
+      .catch(() => alert("Не удалось удалить данный фильм"));
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-    <div className="app">
-      <Header loggedIn={loggedIn} />
-      <Switch>
-        <ProtectedRoute 
-        exact 
-        path='/movies'
-        component={Movies}
-        loggedIn={loggedIn}
-        searchMovie={handleSearch}
-        //movies={movies}
-        />
-        <ProtectedRoute 
-        exact 
-        path='/saved-movies'
-        component={SavedMovies} 
-        loggedIn={loggedIn}
-        />
-        <ProtectedRoute 
-        exact path='/profile'
-        component={Profile}
-        logout={logout}
-        loggedIn={loggedIn}
-        onUpdateProfile={handleUpdateProfile}
-        />
-        <Route exact path='/signup'>
-          <Register register={register}/>
-        </Route>
-        <Route exact path='/signin'>
-          <Login login={login} />
-        </Route>
-        <Route exact path='/'>
-          <Main />
-        </Route>
-        <Route path='*'>
-          <PageNotFound/>
-        </Route>
-      </Switch>
-      <Footer />
-    </div>
+      <SearchFilterMoviesContext.Provider value={searchFilterMovies}>
+        <div className="app">
+          <Header />
+          <Switch>
+            <ProtectedRoute
+              exact
+              path='/movies'
+              component={Movies}
+              movies={movies}
+              savedMovies={savedMovies}
+              moviesIsLoaded={moviesIsLoaded}
+              searchMovie={searchMovie}
+              toggleIsShort={toggleIsShort}
+              saveMovie={saveMovie}
+              unsaveMovie={unsaveMovie}
+            />
+            <ProtectedRoute
+              exact
+              path='/saved-movies'
+              component={SavedMovies}
+              movies={savedMovies}
+              searchMovie={searchMovie}
+              savedMoviesIsLoaded={savedMoviesIsLoaded}
+              toggleIsShort={toggleIsShort}
+              saveMovie={saveMovie}
+              unsaveMovie={unsaveMovie}
+            />
+            <ProtectedRoute
+              exact path='/profile'
+              component={Profile}
+              logout={logout}
+              onUpdateProfile={handleUpdateProfile}
+            />
+            <Route exact path='/signup'>
+              <Register signup={register}/>
+            </Route>
+            <Route exact path='/signin'>
+              <Login login={login} />
+            </Route>
+            <Route exact path='/'>
+              <Main />
+            </Route>
+            <Route path='*'>
+              <PageNotFound/>
+            </Route>
+          </Switch>
+          <Footer />
+        </div>
+      </SearchFilterMoviesContext.Provider>
     </CurrentUserContext.Provider>
   );
 }
-
 
 export default App;

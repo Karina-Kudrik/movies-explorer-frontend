@@ -1,20 +1,25 @@
+import React from "react";
 import './Footer.css';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Footer() {
-   return (
-      <footer className="footer">
-         <div className="footer__container">
-            <p className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm.</p>
-               <div className="footer__row">
-                  <p className="footer__copyright">&copy;2022</p>
-                  <ul className="footer__links">
-                     <li className="footer__item"><a href="https://practicum.yandex.ru/" target="_blank" className="footer__link">Яндекс.Практикум</a></li>
-                     <li className="footer__item"><a href="https://github.com/" className="footer__link" target="_blank">GitHub</a></li>
-                  </ul>
-               </div>
-         </div>
-      </footer>
-   );
+  const { isLoaded } = React.useContext(CurrentUserContext);
+  const footerClassName = ["footer", !isLoaded && "footer_loading"].join(" ");
+
+  return (
+    <footer className={footerClassName}>
+      <div className="footer__container">
+        <p className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm.</p>
+        <div className="footer__row">
+          <p className="footer__copyright">&copy;2022</p>
+          <ul className="footer__links">
+            <li className="footer__item"><a href="https://practicum.yandex.ru/" target="_blank" className="footer__link">Яндекс.Практикум</a></li>
+            <li className="footer__item"><a href="https://github.com/" className="footer__link" target="_blank">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  );
 }
 
 export default Footer;

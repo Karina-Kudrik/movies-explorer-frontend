@@ -1,85 +1,108 @@
 import React from 'react';
 import './Profile.css';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useState, useContext } from "react";
-
+import { useForm } from 'react-hook-form';
 
 function Profile({ logout, onUpdateProfile }) {
-   const currentUser = useContext(CurrentUserContext);
-   const [name, setName] = useState('');
-   const [email, setEmail] = useState('');
+  const { name, email } = React.useContext(CurrentUserContext);
 
-   React.useEffect(() => {
-      setName(currentUser.name);
-      setEmail(currentUser.email);
-   }, [currentUser]);
+  const {
+    register,
+    formState: { errors, isValid },
+  } = useForm({ mode: "all" });
 
+  const [userData, setUserData] = React.useState({
+    name: "",
+    email: "",
+  });
 
-   function handleProfileName(e) {
-      setName(e.target.value);
-   }
+  React.useEffect(() => {
+    setUserData({ name: name, email: email });
+  }, [name, email]);
 
-   function handleProfileEmail(e) {
-      setEmail(e.target.value);
-   }
+  function handleProfileName(e) {
+    setUserData((userData) => ({ ...userData, name: e.target.value }));
+  }
 
-   function handleSubmit(e) {
-      e.preventDefault();
-      onUpdateProfile({
-         name: name,
-         email: email
-      });
-   }
+  function handleProfileEmail(e) {
+    setUserData((userData) => ({ ...userData, email: e.target.value }));
+  }
 
-   return (
-      <section className="profile">
-         <form className="profile__form" name="profile" onSubmit={handleSubmit}>
-            <h1 className="profile__title">Привет, {currentUser.name || ''}!</h1>
-            <div className="profile__container">
-               <label className="profile__label">
-               <span className="profile__label-text"></span>
-               <input
-                  name="name"
-                  className="profile__input"
-                  type="text"
-                  required
-                  minLength="2"
-                  maxLength="30"
-                  placeholder="Имя"
-                  id="name"
-                  value={name || ''}
-                  onChange={handleProfileName}
-               />
-               <span className="profile__error-name"></span>
-               </label>
-               <label className="profile__label">
-               <span className="profile__label-text"></span>
-               <input
-                  name="email"
-                  className="profile__input"
-                  type="email"
-                  placeholder="E-mail"
-                  id="email"
-                  value={email || ''}
-                  onChange={handleProfileEmail}
-               />
-               <span className="profile__error"></span>
-               </label>
-            </div>
-            <div className="profile__button-container">
-               <button
-                  type="submit"
-                  className="profile__button-edit"
-               >
-                  Редактировать
-               </button>
-               <button type="button" className="profile__button-exit" onClick={logout}>
-                  Выйти из аккаунта
-               </button>
-            </div>
-         </form>
-      </section>
-   );
+  function handleSubmit(e) {
+    e.preventDefault();
+    onUpdateProfile(userData.name, userData.email);
+  }
+
+  function userDataIsFilled() {
+    return !userData.name && !userData.email;
+  }
+
+  return (
+    <section className="profile">
+      <form className="profile__form" name="profile" onSubmit={handleSubmit}>
+        <h1 className="profile__title">Привет, {name}!</h1>
+        <div className="profile__container">
+          <label className="profile__label">
+            <span className="profile__label-text"></span>
+            <input
+              name="name"
+              className="profile__input"
+              type="text"
+              placeholder="Имя"
+              id="name"
+              value={userData.name}
+              {...register("name", {
+                required: "поле для обязательного заполнения",
+                onChange: handleProfileName,
+                minLength: {
+                  value: 2,
+                  message: "Минимум 2 символа",
+                },
+                maxLength: {
+                  value: 30,
+                  message: "Максимум 30 символа",
+                },
+              })}
+            />
+            <span className="profile__error-name">{errors.name?.message}</span>
+          </label>
+          <label className="profile__label">
+            <span className="profile__label-text"></span>
+            <input
+              name="email"
+              className="profile__input"
+              type="email"
+              placeholder="E-mail"
+              id="email"
+              value={userData.email}
+              {...register("email", {
+                required: "поле для обязательного заполнения",
+                onChange: handleProfileEmail,
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: "Введите валидный email",
+                },
+              })}
+            />
+            <span className="profile__error">{errors.email?.message}</span>
+          </label>
+        </div>
+        <div className="profile__button-container">
+          <button
+            type="submit"
+            className="profile__button-edit"
+            disabled={userDataIsFilled()}
+          >
+            Редактировать
+          </button>
+          <button type="button" className="profile__button-exit" onClick={logout}>
+            Выйти из аккаунта
+          </button>
+        </div>
+      </form>
+    </section>
+  );
 }
 
 export default Profile;

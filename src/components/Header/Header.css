@@ -1,9 +1,11 @@
 .header {
-   background-color:#073042;
    width: 100%;
 }
-.header_dark {
-   background-color: #202020;
+.header_blue {
+   background-color: #073042;
+}
+.header_loading {
+   opacity: 0;
 }
 .header__container {
    display: flex;
