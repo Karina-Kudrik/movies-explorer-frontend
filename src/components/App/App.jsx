@@ -154,6 +154,10 @@ function App() {
       .catch(() => alert("Не удалось удалить данный фильм"));
   }
 
+  function goBack() {
+    history.goBack();
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <SearchFilterMoviesContext.Provider value={searchFilterMovies}>
@@ -199,7 +203,7 @@ function App() {
               <Main />
             </Route>
             <Route path='*'>
-              <PageNotFound/>
+              <PageNotFound goBack={goBack}/>
             </Route>
           </Switch>
           <Footer />
