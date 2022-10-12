@@ -4,3 +4,5 @@
 
 ссылка на сайт: https://moviesexplorer.app.nomoredomains.sbs
 
+ссылка на pull-request: https://github.com/Karina-Kudrik/movies-explorer-frontend/pull/2
+
