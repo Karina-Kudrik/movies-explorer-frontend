@@ -25,14 +25,27 @@ function App() {
   const [currentUser, setCurrentUser, setIsLoaded, setIsLogged] =
     useAuth(logout);
   const [searchFilterMovies, setSearchFilterMovies] = React.useState({
-    name: localStorage.getItem("searchedKeywords") || "",
-    isShort: JSON.parse(localStorage.getItem("isShort")) || false,
+    name: "",
+    isShort: false,
   });
-  const [movies, setMovies, moviesIsLoaded] = useMovies(searchFilterMovies);
+  const [movies, setMovies, moviesIsLoaded] = useMovies(currentUser,searchFilterMovies);
   const [savedMovies, setSavedMovies, savedMoviesIsLoaded] = useSavedMovies(
     currentUser,
     searchFilterMovies
   );
+  
+  React.useEffect(() => {
+    if (location.pathname === "/saved-movies") {
+      setSearchFilterMovies({ name: "", isShort: false });
+    }
+
+    if (location.pathname === "/movies") {
+      setSearchFilterMovies({
+        name: localStorage.getItem("searchedKeywords") || "",
+        isShort: JSON.parse(localStorage.getItem("isShort")) || false,
+      });
+    }
+  }, [location.pathname]);
 
   function login(email, password) {
     auth
@@ -65,10 +78,8 @@ function App() {
   function register(name, email, password) {
     auth
       .register(name, email, password)
-      .then((res) => {
-        if (res) {
-          history.push('/signin');
-        }
+      .then(() => {
+        history.push('/signin');
       })
       .catch((err) => {
         switch (err) {
@@ -92,6 +103,7 @@ function App() {
     mainApi
       .updateUserInfo(token, name, email)
       .then((user) => {
+        console.log(user);
         setCurrentUser((currentUser) => ({ ...currentUser, ...user }));
         alert("Данные успешно обновлены!");
       })
@@ -104,7 +116,14 @@ function App() {
       return alert("Нужно ввести ключевое слово");
     }
 
-    changeSearchedName(searchedKeywords);
+    if (location.pathname === "/movies") {
+      changeSearchedName(searchedKeywords);
+    } else {
+      setSearchFilterMovies((searchFilterMovies) => ({
+        ...searchFilterMovies,
+        name: searchedKeywords,
+      }));
+    }
   }
 
   function changeSearchedName(searchedKeywords) {
@@ -125,6 +144,7 @@ function App() {
   }
 
   function saveMovie(movie) {
+    console.log(movie);
     mainApi
       .createMovie(movie)
       .then((savedMovie) => {

@@ -1,10 +1,14 @@
 import React from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import { useLocation } from "react-router-dom";
+
 
 function SearchForm({ searchMovie, toggleIsShort }) {
+  const location = useLocation();
+  const isSavedMoviesPage = location.pathname === "/saved-movies";
   const [searchedKeywords, setSearchedKeywords] = React.useState(
-    localStorage.getItem("searchedKeywords") || ""
+    isSavedMoviesPage ? "" : localStorage.getItem("searchedKeywords") || ""
   );
 
   function handleChangeSearchedKeywords(e) {

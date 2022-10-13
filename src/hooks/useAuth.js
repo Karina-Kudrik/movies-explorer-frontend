@@ -1,7 +1,7 @@
 import React from "react";
 import * as auth from "../utils/auth";
 
-const useAuth = (logout) => {
+const useAuth = () => {
   const [currentUser, setCurrentUser] = React.useState({
     _id: "",
     name: "",
@@ -12,9 +12,8 @@ const useAuth = (logout) => {
 
   React.useEffect(() => {
     let token = localStorage.getItem("jwt");
-    if (!token) return logout();
-
-    auth
+    if (token) {
+      auth
       .getUserInfo(token)
       .then((user) => {
         setCurrentUser((currentUser) => ({
@@ -25,6 +24,9 @@ const useAuth = (logout) => {
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoaded(true));
+    } else {
+      setIsLoaded(true);
+    }
   }, [currentUser.isLogged]);
 
   function setIsLoaded(value) {

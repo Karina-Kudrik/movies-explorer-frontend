@@ -12,7 +12,7 @@ function FilterCheckbox({ toggleIsShort }) {
       <input
         className="filter__checkbox"
         type="checkbox"
-        defaultChecked={isShort}
+        checked={isShort}
         onChange={toggleIsShort}
       />
       <span className="filter__tumbler"></span>

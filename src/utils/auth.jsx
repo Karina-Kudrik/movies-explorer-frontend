@@ -1,5 +1,5 @@
-const BASE_URL = 'https://api.moviesexplorer.app.nomoredomains.sbs';
-//const BASE_URL = 'http://localhost:4000';
+//const BASE_URL = 'https://api.moviesexplorer.app.nomoredomains.sbs';
+const BASE_URL = 'http://localhost:4000';
 
 const checkResponse = (response) => {
   return response.ok

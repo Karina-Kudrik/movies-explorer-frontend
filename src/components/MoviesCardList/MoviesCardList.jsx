@@ -20,9 +20,6 @@ function MoviesCardList({ movies, save, unsave, savedMovies }) {
     }
   }, [maxVisibleCards]);
 
-  React.useEffect(() => {
-    console.log(maxCardsInRow);
-  }, [maxCardsInRow]);
 
   React.useEffect(() => {
     calculateCardsList();

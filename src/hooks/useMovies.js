@@ -2,7 +2,7 @@ import React from "react";
 import { getMovies } from "../utils/MoviesApi";
 import { LOADING_STATUS } from "../constants/MoviesConstants";
 
-const useMovies = (searchFilterMovies) => {
+const useMovies = (currentUser, searchFilterMovies) => {
   const [movies, setMovies] = React.useState([]);
   const [moviesIsLoaded, setMoviesIsLoaded] = React.useState(
     LOADING_STATUS.SUCCESSFULLY
@@ -13,28 +13,36 @@ const useMovies = (searchFilterMovies) => {
 
     setMoviesIsLoaded(LOADING_STATUS.LOADING);
 
-    getMovies()
-      .then((movies) => {
-        const filteredMovies = filterMovies(movies);
-        saveMovies(filteredMovies);
+    const movies = JSON.parse(localStorage.getItem("movies"));
+    const jwt = localStorage.getItem("jwt");
 
-        if (filteredMovies.length) {
-          setMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
-          return;
-        }
+    if (!movies && jwt && currentUser._id) {
+      getMovies()
+        .then((movies) => {
+          localStorage.setItem("movies", JSON.stringify(movies));
 
-        setMoviesIsLoaded(LOADING_STATUS.NOT_FOUND);
-      })
-      .catch((error) => {
-        setMoviesIsLoaded(LOADING_STATUS.ERROR);
-        console.log(error);
-      });
-  }, [searchFilterMovies]);
+          const filteredMovies = filterMovies(movies);
+          setMovies(filteredMovies);
 
-  function saveMovies(movies) {
-    localStorage.setItem("movies", JSON.stringify(movies));
-    setMovies(movies);
-  }
+          if (filteredMovies.length) {
+            setMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
+            return;
+          }
+
+          setMoviesIsLoaded(LOADING_STATUS.NOT_FOUND);
+        })
+        .catch((error) => {
+          setMoviesIsLoaded(LOADING_STATUS.ERROR);
+          console.log(error);
+        });
+      return;
+    }
+
+    if (movies) {
+      setMovies(filterMovies(movies));
+      setMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
+    }
+  }, [searchFilterMovies, currentUser._id]);
 
   function filterMovies(movies) {
     return movies.filter(

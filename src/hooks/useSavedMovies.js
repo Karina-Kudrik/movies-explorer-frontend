@@ -1,8 +1,10 @@
 import React from "react";
 import { getSavedMovies } from "../utils/MainApi";
 import { LOADING_STATUS } from "../constants/MoviesConstants";
+import { useLocation } from "react-router-dom";
 
 function useSavedMovies(currentUser, searchFilterMovies) {
+  const location = useLocation();
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [savedMoviesIsLoaded, setSavedMoviesIsLoaded] = React.useState(
     LOADING_STATUS.SUCCESSFULLY
@@ -12,8 +14,9 @@ function useSavedMovies(currentUser, searchFilterMovies) {
     const savedMovies = JSON.parse(localStorage.getItem("savedMovies"));
     const jwt = localStorage.getItem("jwt");
 
+    setSavedMoviesIsLoaded(LOADING_STATUS.LOADING);
+
     if (!savedMovies && jwt && currentUser._id) {
-      setSavedMoviesIsLoaded(LOADING_STATUS.LOADING);
       getSavedMovies()
         .then((allSavedMovies) => {
           const savedMovies = getMoviesOfCurrentUser(allSavedMovies);
@@ -32,13 +35,13 @@ function useSavedMovies(currentUser, searchFilterMovies) {
           setSavedMoviesIsLoaded(LOADING_STATUS.ERROR);
           console.log(error);
         });
-      return;
+        return;
     }
 
     if (savedMovies) {
-      setSavedMovies(filterMovies(savedMovies));
+      setSavedMovies(location.pathname === '/saved-movies' ? filterMovies(savedMovies) : savedMovies);
+      setSavedMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
     }
-    
   }, [searchFilterMovies, currentUser._id]);
 
   function saveMovies(movies) {
