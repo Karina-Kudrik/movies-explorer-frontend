@@ -97,11 +97,11 @@
 .profile__button-edit:hover {
   opacity: .8;
 } 
-.profile__button-edit_disabled {
+.profile__button-edit:disabled {
   color: #8B8B8B;
   cursor: default;
 } 
-.profile__button-edit_disabled:hover {
+.profile__button-edit:disabled:hover {
   opacity: 1;
 } 
 .profile__button-exit {

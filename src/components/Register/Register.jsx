@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import './Register.css';
 import logo from '../../images/logo.svg';
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 function Register({signup}) {
+  const history = useHistory();
   const {
     register,
     formState: { errors },
@@ -16,6 +18,13 @@ function Register({signup}) {
     password: "",
   });
 
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      history.push('/movies');
+    }
+  }, []);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setUserData({
@@ -26,7 +35,7 @@ function Register({signup}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    signup(userData);
+    signup(userData.name, userData.email, userData.password);
   }
 
   function userDataIsFilled() {

@@ -2,8 +2,13 @@ import React from 'react';
 import MoviesCard from "../MoviesCard/MoviesCard";
 import './MoviesCardList.css';
 import { BREAKPOINTS } from "../../constants/MoviesConstants";
+import { useLocation } from "react-router-dom";
 
 function MoviesCardList({ movies, save, unsave, savedMovies }) {
+  const location = useLocation();
+  const isMoviesPage = location.pathname === '/movies';
+
+  const [initialAmount, setInitialAmount] = React.useState(null);
   const [loadCardsCount, setLoadCardsCount] = React.useState(null);
   const [numberOfVisibleMovies, setNumberOfVisibleMovies] =
     React.useState(null);
@@ -11,15 +16,20 @@ function MoviesCardList({ movies, save, unsave, savedMovies }) {
   const [maxCardsInRow, setMaxCardsInRow] = React.useState(null);
 
   React.useEffect(() => {
-    if (!numberOfVisibleMovies) {
-      setNumberOfVisibleMovies(loadCardsCount);
-    }
-
-    if (numberOfVisibleMovies > maxVisibleCards) {
-      setNumberOfVisibleMovies(maxVisibleCards);
+    if (isMoviesPage) {
+      if (numberOfVisibleMovies > maxVisibleCards) {
+        setNumberOfVisibleMovies(maxVisibleCards);
+      }
+    } else {
+      setNumberOfVisibleMovies(-1);
     }
   }, [maxVisibleCards]);
 
+  React.useEffect(() => {
+    if (isMoviesPage) {
+      setNumberOfVisibleMovies(initialAmount);
+    }
+  }, [initialAmount]);
 
   React.useEffect(() => {
     calculateCardsList();
@@ -47,8 +57,11 @@ function MoviesCardList({ movies, save, unsave, savedMovies }) {
           const correctMaxWidth = device.maxWidth > window.innerWidth;
 
           if (correctMinWidth && correctMaxWidth) {
-            setLoadCardsCount(device.loadCardsCount);
-            setMaxVisibleCards(device.maxCards);
+            if (isMoviesPage) {
+              setInitialAmount(device.initialAmount);
+              setLoadCardsCount(device.loadCardsCount);
+              setMaxVisibleCards(device.maxCards);
+            }
             setMaxCardsInRow(device.cardsInRow);
             break;
           }
@@ -64,7 +77,7 @@ function MoviesCardList({ movies, save, unsave, savedMovies }) {
           gridTemplateColumns: `repeat(${maxCardsInRow}, minmax(200px, 1fr)`,
         }}
       >
-        {movies.slice(0, numberOfVisibleMovies).map((movie) => (
+        {maxCardsInRow && movies.slice(0, numberOfVisibleMovies).map((movie) => (
           <MoviesCard
             key={movie.id || movie._id}
             movie={movie}
@@ -74,12 +87,11 @@ function MoviesCardList({ movies, save, unsave, savedMovies }) {
           />
         ))}
       </ul>
-      {movies.length > numberOfVisibleMovies &&
-        numberOfVisibleMovies < maxVisibleCards && (
-          <button className="movies__show-more" onClick={handleClickOnButton}>
-            Ещё
-          </button>
-        )}
+      {maxCardsInRow && isMoviesPage && movies.length > numberOfVisibleMovies && (
+        <button className="movies__show-more" onClick={handleClickOnButton}>
+          Ещё
+        </button>
+      )}
     </section>
   );
 }

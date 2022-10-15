@@ -22,8 +22,8 @@ import useSavedMovies from "../../hooks/useSavedMovies";
 function App() {
   const history = useHistory();
   const location = useLocation();
-  const [currentUser, setCurrentUser, setIsLoaded, setIsLogged] =
-    useAuth(logout);
+  const [currentUser, setCurrentUser, setIsLoaded, setIsLogged] = 
+    useAuth();
   const [searchFilterMovies, setSearchFilterMovies] = React.useState({
     name: "",
     isShort: false,
@@ -77,9 +77,10 @@ function App() {
 
   function register(name, email, password) {
     auth
-      .register(name, email, password)
+      .register({name, email, password})
       .then(() => {
-        history.push('/signin');
+        alert("Вы успешно зарегистрированы!");
+        login(email, password);
       })
       .catch((err) => {
         switch (err) {
@@ -103,7 +104,6 @@ function App() {
     mainApi
       .updateUserInfo(token, name, email)
       .then((user) => {
-        console.log(user);
         setCurrentUser((currentUser) => ({ ...currentUser, ...user }));
         alert("Данные успешно обновлены!");
       })
@@ -144,7 +144,6 @@ function App() {
   }
 
   function saveMovie(movie) {
-    console.log(movie);
     mainApi
       .createMovie(movie)
       .then((savedMovie) => {

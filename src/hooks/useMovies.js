@@ -39,8 +39,13 @@ const useMovies = (currentUser, searchFilterMovies) => {
     }
 
     if (movies) {
-      setMovies(filterMovies(movies));
-      setMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
+      const filteredMovies = filterMovies(movies);
+      setMovies(filteredMovies);
+      if (filteredMovies.length > 0) {
+        setMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
+      } else {
+        setMoviesIsLoaded(LOADING_STATUS.NOT_FOUND);
+      }
     }
   }, [searchFilterMovies, currentUser._id]);
 

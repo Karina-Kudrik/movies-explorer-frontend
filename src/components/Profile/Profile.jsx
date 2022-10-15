@@ -8,7 +8,7 @@ function Profile({ logout, onUpdateProfile }) {
 
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({ mode: "all" });
 
   const [userData, setUserData] = React.useState({
@@ -33,8 +33,10 @@ function Profile({ logout, onUpdateProfile }) {
     onUpdateProfile(userData.name, userData.email);
   }
 
-  function userDataIsFilled() {
-    return !userData.name && !userData.email;
+  function validateFields() {
+    const fieldsIsEmpty = !userData.name && !userData.email;
+    const fieldsIsNotChanged = userData.name === name && userData.email === email;
+    return fieldsIsEmpty || fieldsIsNotChanged;
   }
 
   return (
@@ -92,7 +94,7 @@ function Profile({ logout, onUpdateProfile }) {
           <button
             type="submit"
             className="profile__button-edit"
-            disabled={userDataIsFilled()}
+            disabled={validateFields()}
           >
             Редактировать
           </button>

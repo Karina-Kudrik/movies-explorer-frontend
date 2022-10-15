@@ -10,20 +10,20 @@ export const BREAKPOINTS = {
     maxWidth: Infinity,
     cardsInRow: 3,
     loadCardsCount: 3,
-    maxCards: 12,
+    initialAmount: 12,
   },
   tablet: {
     minWidth: 481,
     maxWidth: 1279,
     cardsInRow: 2,
     loadCardsCount: 2,
-    maxCards: 8,
+    initialAmount: 8,
   },
   phone: {
     minWidth: 0,
     maxWidth: 480,
     cardsInRow: 1,
     loadCardsCount: 2,
-    maxCards: 5,
+    initialAmount: 5,
   },
 };

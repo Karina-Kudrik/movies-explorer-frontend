@@ -10,13 +10,31 @@ function MoviesCard({ movie, save, unsave, savedMovies }) {
   
   function handleSaveMovie(e) {
     e.stopPropagation();
+    console.log(movie)
 
-    if (isSaved)
+    if (isSaved) {
       return unsave(
         savedMovies.find(
           (savedMovie) => savedMovie.movieId === (movie.id || movie.movieId)
         )._id
       );
+    }
+
+    for (const moviePropName in movie) {
+      if (Object.hasOwnProperty.call(movie, moviePropName)) {
+        const moviePropValue = movie[moviePropName];
+        const notValidTrailerLink = moviePropName === 'trailerLink' && moviePropValue.indexOf("://") === -1;
+        const notValidImageLInk = moviePropName === 'trailerLink' && moviePropValue.url?.indexOf("://") === -1;
+
+        if (!moviePropValue || notValidTrailerLink || notValidImageLInk) {
+          alert(
+            "К сожалению данный фильм недоступен для сохранения, попробуйте позже."
+          );
+          return;
+        }
+      }
+    }
+
     return save(movie);
   }
 

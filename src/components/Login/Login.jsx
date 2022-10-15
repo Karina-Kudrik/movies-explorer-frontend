@@ -3,8 +3,10 @@ import logo from '../../images/logo.svg';
 import './Login.css';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useHistory } from "react-router-dom";
 
 function Login({login}) {
+  const history = useHistory();
   const [data, setData] = React.useState({
     email: '',
     password: '',
@@ -14,6 +16,13 @@ function Login({login}) {
     register,
     formState: { errors, isValid },
   } = useForm({ mode: "all" });
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      history.push('/movies');
+    }
+  }, []);
 
   const handleChange = (e) => {
     const {name, value} = e.target;

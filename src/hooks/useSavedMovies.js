@@ -39,8 +39,16 @@ function useSavedMovies(currentUser, searchFilterMovies) {
     }
 
     if (savedMovies) {
-      setSavedMovies(location.pathname === '/saved-movies' ? filterMovies(savedMovies) : savedMovies);
-      setSavedMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
+      const filteredMovies =
+        location.pathname === "/saved-movies"
+          ? filterMovies(savedMovies)
+          : savedMovies;
+      setSavedMovies(filteredMovies);
+      if (filteredMovies.length > 0) {
+        setSavedMoviesIsLoaded(LOADING_STATUS.SUCCESSFULLY);
+      } else {
+        setSavedMoviesIsLoaded(LOADING_STATUS.NOT_FOUND);
+      }
     }
   }, [searchFilterMovies, currentUser._id]);
 
