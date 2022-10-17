@@ -38,8 +38,18 @@ function Register({signup}) {
     signup(userData.name, userData.email, userData.password);
   }
 
-  function userDataIsFilled() {
-    return !userData.name && !userData.email && !userData.password;
+  function userDataIsValid() {
+    const isEmpty = !userData.name || !userData.email || !userData.password;
+      if (isEmpty) {
+        return true;
+      }
+
+    const isErrors = errors.name || errors.email || errors.password;
+      if (isErrors) {
+        return true;
+      }
+
+    return false;
   }
 
   return (
@@ -68,6 +78,11 @@ function Register({signup}) {
                 maxLength: {
                   value: 30,
                   message: "Максимум 30 символа",
+                },
+                pattern: {
+                  value:
+                  /^[a-яё]+(?:[ -][a-яё]+)*$/i,
+                  message: "Поле может содержать кириллицу, латиницу, пробел или дефис",
                 },
               })}
             />
@@ -105,10 +120,6 @@ function Register({signup}) {
               {...register("password", {
                 required: "поле для обязательного заполнения",
                 onChange: handleChange,
-                minLength: {
-                  value: 4,
-                  message: "пароль должен быть минимун 4 символа",
-                },
               })}
             />
             <span className="register__error">{errors.password?.message}</span>
@@ -116,8 +127,8 @@ function Register({signup}) {
         </div>
         <button
           type="submit"
-          className='register__button'
-          disabled={userDataIsFilled()}
+          className="register__button"
+          disabled={userDataIsValid()}
         >
           Зарегистрироваться
         </button>

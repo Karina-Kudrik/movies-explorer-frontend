@@ -64,6 +64,11 @@ function Profile({ logout, onUpdateProfile }) {
                   value: 30,
                   message: "Максимум 30 символа",
                 },
+                pattern: {
+                  value:
+                  /^[a-яё]+(?:[ -][a-яё]+)*$/i,
+                  message: "Поле может содержать кириллицу, латиницу, пробел или дефис",
+                },
               })}
             />
             <span className="profile__error-name">{errors.name?.message}</span>

@@ -38,8 +38,18 @@ function Login({login}) {
     login(email, password);
   }
 
-  const dataIsFilled = () => {
-    return !data.email && !data.password;
+  function userDataIsValid() {
+    const isEmpty = !data.email || !data.password;
+    if (isEmpty) {
+      return true;
+    }
+
+    const isErrors = errors.name || errors.email || errors.password;
+    if (isErrors) {
+      return true;
+    }
+
+    return false;
   }
 
   return (
@@ -81,10 +91,6 @@ function Login({login}) {
               {...register("password", {
                 required: "поле для обязательного заполнения",
                 onChange: handleChange,
-                minLength: {
-                  value: 4,
-                  message: "пароль должен быть минимун 4 символа",
-                },
               })}
             />
             <span className="login__error">{errors.password?.message}</span>
@@ -93,7 +99,7 @@ function Login({login}) {
         <button 
             type="submit" 
             className="login__button" 
-            disabled={dataIsFilled()}
+            disabled={userDataIsValid()}
           >
           Войти
         </button>

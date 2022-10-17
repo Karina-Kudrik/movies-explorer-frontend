@@ -34,6 +34,12 @@ function App() {
     searchFilterMovies
   );
   
+    React.useEffect(() => {
+      if (!localStorage.getItem("jwt")) {
+        logout();
+      }
+    }, []);
+
   React.useEffect(() => {
     if (location.pathname === "/saved-movies") {
       setSearchFilterMovies({ name: "", isShort: false });
@@ -78,9 +84,11 @@ function App() {
   function register(name, email, password) {
     auth
       .register({name, email, password})
-      .then(() => {
+      .then((res) => {
+        localStorage.setItem('jwt', res.token);
+        setIsLogged(true);
         alert("Вы успешно зарегистрированы!");
-        login(email, password);
+        history.push('/movies');
       })
       .catch((err) => {
         switch (err) {

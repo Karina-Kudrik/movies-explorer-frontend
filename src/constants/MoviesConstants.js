@@ -6,22 +6,22 @@ export const LOADING_STATUS = {
 };
 export const BREAKPOINTS = {
   desktop: {
-    minWidth: 1280,
+    minWidth: 769,
     maxWidth: Infinity,
     cardsInRow: 3,
     loadCardsCount: 3,
     initialAmount: 12,
   },
   tablet: {
-    minWidth: 481,
-    maxWidth: 1279,
+    minWidth: 531,
+    maxWidth: 768,
     cardsInRow: 2,
     loadCardsCount: 2,
     initialAmount: 8,
   },
   phone: {
-    minWidth: 0,
-    maxWidth: 480,
+    minWidth: 320,
+    maxWidth: 530,
     cardsInRow: 1,
     loadCardsCount: 2,
     initialAmount: 5,

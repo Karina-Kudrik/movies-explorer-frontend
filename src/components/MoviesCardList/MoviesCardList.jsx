@@ -77,7 +77,7 @@ function MoviesCardList({ movies, save, unsave, savedMovies }) {
           gridTemplateColumns: `repeat(${maxCardsInRow}, minmax(200px, 1fr)`,
         }}
       >
-        {maxCardsInRow && movies.slice(0, numberOfVisibleMovies).map((movie) => (
+        {maxCardsInRow && movies.slice(0, numberOfVisibleMovies === -1 ? undefined : numberOfVisibleMovies).map((movie) => (
           <MoviesCard
             key={movie.id || movie._id}
             movie={movie}

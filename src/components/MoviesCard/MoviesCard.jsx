@@ -10,7 +10,6 @@ function MoviesCard({ movie, save, unsave, savedMovies }) {
   
   function handleSaveMovie(e) {
     e.stopPropagation();
-    console.log(movie)
 
     if (isSaved) {
       return unsave(
@@ -19,27 +18,15 @@ function MoviesCard({ movie, save, unsave, savedMovies }) {
         )._id
       );
     }
-
-    for (const moviePropName in movie) {
-      if (Object.hasOwnProperty.call(movie, moviePropName)) {
-        const moviePropValue = movie[moviePropName];
-        const notValidTrailerLink = moviePropName === 'trailerLink' && moviePropValue.indexOf("://") === -1;
-        const notValidImageLInk = moviePropName === 'trailerLink' && moviePropValue.url?.indexOf("://") === -1;
-
-        if (!moviePropValue || notValidTrailerLink || notValidImageLInk) {
-          alert(
-            "К сожалению данный фильм недоступен для сохранения, попробуйте позже."
-          );
-          return;
-        }
-      }
-    }
-
     return save(movie);
   }
 
   function handleClick(e) {
-    window.location.href = movie.trailerLink;
+    if (movie.trailerLink) {
+      window.location.href = movie.trailerLink;
+    } else {
+      alert("У данного фильма отсутствует трейлер.")
+    }
   }
 
   return (<>

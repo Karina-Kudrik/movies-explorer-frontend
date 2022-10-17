@@ -109,12 +109,12 @@
 .login__button:hover {
    opacity: .8;
 } 
-.login__button_disabled {
+.login__button:disabled {
    background-color: #F8F8F8;
    color: #C2C2C2;
-   cursor: none;
+   cursor: default;
 }
-.login__button_disabled:hover {
+.login__button:disabled:hover {
    opacity: 1;
 } 
 .login__signup {
