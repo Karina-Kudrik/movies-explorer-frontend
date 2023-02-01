@@ -27,6 +27,12 @@
 * CSS
 * Адаптивная верстка
 
+## Запуск проекта:
+
+npm i — установка зависимостей
+
+npm run start — запуск приложения
+
 Ссылка на макет: https://disk.yandex.ru/d/exum6WdCrDQq1g
 
 Домен со сторонним API(все фильмы) https://api.nomoreparties.co/beatfilm-movies
