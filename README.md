@@ -33,7 +33,7 @@ npm i — установка зависимостей
 
 npm run start — запуск приложения
 
-##Ссылки
+## Ссылки
 
 Макет: https://disk.yandex.ru/d/exum6WdCrDQq1g
 
